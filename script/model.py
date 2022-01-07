@@ -31,7 +31,7 @@ class Model:
     def get_verification_result(self, news):
         word_attributions = self.cls_explainer(news)
         classification = self.cls_explainer.predicted_class_name
-        print("overall_res:{}".format(classification))
+        # print("overall_res:{}".format(classification))
         if (classification == "LABEL_0"):
             overall_result = True
         else:

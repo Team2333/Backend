@@ -33,13 +33,13 @@ async def homepage():
     return {"message": "Hello World"}
 
 # API for Offline pipeline to update model
-@app.post("/upload_model_weights/{object_name}")
-async def load_most_recent_model_weights(object_name: str):
-    saved_weights_new = client.fetch_update(object_name)
+@app.post("/upload_model_weights/{bucket_name}/{object_name}")
+async def load_most_recent_model_weights(bucket_name: str, object_name: str):
+    saved_weights_new = client.fetch_update(bucket_name, object_name)
     ml_model.reload(saved_weights_new)
     return {"message": "Successfully loaded the most recent model weights"}
 
-# test API for Offline pipeline to update model
+# # test API for Offline pipeline to update model
 # @app.post("/test_upload_model_weights/{object_name}")
 # async def load_most_recent_model_weights(object_name: str):
 #     object_name = client.upload(object_name)

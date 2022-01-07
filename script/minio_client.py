@@ -5,13 +5,13 @@ DEFAULT_UPDATED_SAVED_WEIGHTS = './distilbert_saved_weights_new.pt'
 DEFAULT_BUCKET_NAME = 'jx-test'
 
 # DEFAULT_BUCKET_NAME = 'jx-test'
-# TEST_FILE = './distilbert_saved_weights.pt'
+TEST_FILE = './test.pt'
 class MinioClient:
     def __init__(self):
         MINIO_ACCESS_KEY = os.environ.get("MINIO_ACCESS_KEY")
         MINIO_SECRET_KEY = os.environ.get("MINIO_SECRET_KEY")
         self.client = Minio("minio.covid-polygraph.ml", access_key=MINIO_ACCESS_KEY, secret_key=MINIO_SECRET_KEY)
-    
+
     def fetch_update(self, bucket_name, object_name):
         self.client.fget_object(bucket_name, object_name, DEFAULT_UPDATED_SAVED_WEIGHTS)
         return DEFAULT_UPDATED_SAVED_WEIGHTS
