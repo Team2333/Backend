@@ -1,0 +1,34 @@
+import torch
+import warnings
+
+from transformers import DistilBertTokenizerFast as TokenizerClass
+from transformers import DistilBertForSequenceClassification as ModelClass
+from transformers_interpret import SequenceClassificationExplainer
+
+DISTILBERT_SAVED_WEIGHTS = './distilbert_saved_weights.pt'
+
+class Model:
+    def __init__(self, current_saved_weights):
+        self.cls_explainer = self.load(current_saved_weights)
+    
+    def load(self, current_saved_weights):
+        model_name = 'distilbert-base-uncased'
+        tokenizer = TokenizerClass.from_pretrained(model_name)
+        pt_model = ModelClass.from_pretrained(model_name, num_labels=2)
+        #load weights of best model
+        pt_model.load_state_dict(torch.load(current_saved_weights, map_location=torch.device('cpu')))
+        # for explainable AI
+        cls_explainer = SequenceClassificationExplainer(
+            pt_model, 
+            tokenizer)
+
+        return cls_explainer
+
+    def reload(self, new_saved_weights):
+        return self.load(new_saved_weights)
+
+    def get_word_attributions(self, news):
+        word_attributions = self.cls_explainer(news)
+        return word_attributions
+
+DistilBERT_model = Model(DISTILBERT_SAVED_WEIGHTS)
