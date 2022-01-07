@@ -8,4 +8,4 @@ COPY ./script/ $BACKEND
 WORKDIR $BACKEND
 RUN . /root/.bashrc && conda init bash && conda env create -f environment.yml
 # deployed version
-CMD . /root/.bashrc && conda activate test-covid-polygraph && uvicorn main:app --host 0.0.0.0 --port 80
+CMD . /root/.bashrc && conda activate covid-polygraph && uvicorn main:app --host 0.0.0.0 --port 80

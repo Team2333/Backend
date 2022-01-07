@@ -130,3 +130,5 @@ dmypy.json
 
 # saved_weights
 *.pt
+*.tar
+temp/

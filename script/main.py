@@ -1,7 +1,9 @@
+from typing import List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from model import DistilBERT_model as ml_model
+# from minio_client import client
 
 app = FastAPI()
 
@@ -18,8 +20,12 @@ app.add_middleware(
 )
 
 # News to be verified
-class News_Content(BaseModel):
+class NewsContent(BaseModel):
     message: str
+
+class VerificationResult(BaseModel):
+    is_real: bool
+    data: List = []
 
 # Homepage
 @app.get("/")
@@ -32,8 +38,8 @@ async def homepage():
 #     ml_model.reload(received_file.file)
 #     return {"message": "Successfully loaded the most recent model weights"}
 
-@app.post("/verify/")
-async def verify_news(news_content: News_Content):
+@app.post("/verify/", response_model=VerificationResult)
+async def verify_news(news_content: NewsContent):
     # pass the news_content to the ml model and get the analysed response 
-    response = ml_model.get_word_attributions(news_content.message)
-    return response
+    data, result = ml_model.get_verification_result(news_content.message)
+    return {"is_real": result, "data": data}

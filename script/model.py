@@ -27,8 +27,14 @@ class Model:
     def reload(self, new_saved_weights):
         return self.load(new_saved_weights)
 
-    def get_word_attributions(self, news):
+    def get_verification_result(self, news):
         word_attributions = self.cls_explainer(news)
-        return word_attributions
+        classification = self.cls_explainer.predicted_class_name
+        print("overall_res:{}".format(classification))
+        if (classification == "LABEL_0"):
+            overall_result = True
+        else:
+            overall_result = False
+        return word_attributions, overall_result
 
 DistilBERT_model = Model(DISTILBERT_SAVED_WEIGHTS)
