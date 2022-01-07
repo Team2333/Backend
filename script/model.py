@@ -4,9 +4,10 @@ import warnings
 from transformers import DistilBertTokenizerFast as TokenizerClass
 from transformers import DistilBertForSequenceClassification as ModelClass
 from transformers_interpret import SequenceClassificationExplainer
+from minio_client import DEFAULT_UPDATED_SAVED_WEIGHTS
+from pathlib import Path
 
 DISTILBERT_SAVED_WEIGHTS = './distilbert_saved_weights.pt'
-
 class Model:
     def __init__(self, current_saved_weights):
         self.cls_explainer = self.load(current_saved_weights)

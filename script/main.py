@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from model import DistilBERT_model as ml_model
-# from minio_client import client
+from minio_client import client
 
 app = FastAPI()
 
@@ -32,11 +32,18 @@ class VerificationResult(BaseModel):
 async def homepage():
     return {"message": "Hello World"}
 
-# TODO: API for Offline pipeline to update model
-# @app.post("/upload_model_weights/")
-# async def load_most_recent_model_weights(received_file: UploadFile = File(...)):
-#     ml_model.reload(received_file.file)
-#     return {"message": "Successfully loaded the most recent model weights"}
+# API for Offline pipeline to update model
+@app.post("/upload_model_weights/{object_name}")
+async def load_most_recent_model_weights(object_name: str):
+    saved_weights_new = client.fetch_update(object_name)
+    ml_model.reload(saved_weights_new)
+    return {"message": "Successfully loaded the most recent model weights"}
+
+# test API for Offline pipeline to update model
+# @app.post("/test_upload_model_weights/{object_name}")
+# async def load_most_recent_model_weights(object_name: str):
+#     object_name = client.upload(object_name)
+#     return {"message": "Successfully loaded {}".format(object_name)}
 
 @app.post("/verify/", response_model=VerificationResult)
 async def verify_news(news_content: NewsContent):
