@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 
 # saved_weights
-*.pt
+# *.pt
 *.tar
 temp/
