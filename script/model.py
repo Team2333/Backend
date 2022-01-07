@@ -13,7 +13,7 @@ class Model:
         self.cls_explainer = self.load(current_saved_weights)
     
     def load(self, current_saved_weights):
-        model_name = 'distilbert-base-uncased'
+        model_name = 'distilbert-base-cased'
         tokenizer = TokenizerClass.from_pretrained(model_name)
         pt_model = ModelClass.from_pretrained(model_name, num_labels=2)
         #load weights of best model
@@ -22,6 +22,8 @@ class Model:
         cls_explainer = SequenceClassificationExplainer(
             pt_model, 
             tokenizer)
+            
+        print("[Backend]: saved weight currently used is {}".format(current_saved_weights))
 
         return cls_explainer
 
