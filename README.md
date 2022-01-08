@@ -6,7 +6,7 @@ Covid-polygraph, a set of Machine Learning-driven fact-checking tools that aim t
 Project is extended based on our [CS3244 Team Project](https://github.com/FightCovid-SG/CS3244-Team15) 
 and more on code reference and reuse can be found in the [Offline Training Pipeline Repository](https://github.com/Team2333/offline-training-pipeline).
 
-## How to use
+## How to run the backend code
 To run the code, use Docker:
 ```bash
 docker build . -t covid-polygraph:latest
