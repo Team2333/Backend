@@ -15,6 +15,7 @@ class Model:
     def load(self, current_saved_weights):
         model_name = 'distilbert-base-cased'
         tokenizer = TokenizerClass.from_pretrained(model_name)
+        tokenizer.do_lower_case = False
         pt_model = ModelClass.from_pretrained(model_name, num_labels=2)
         #load weights of best model
         pt_model.load_state_dict(torch.load(current_saved_weights, map_location=torch.device('cpu')))
@@ -22,7 +23,7 @@ class Model:
         cls_explainer = SequenceClassificationExplainer(
             pt_model, 
             tokenizer)
-            
+
         print("[Backend]: saved weight currently used is {}".format(current_saved_weights))
 
         return cls_explainer
